@@ -5,7 +5,7 @@ import sys
 from methods import print_error
 
 
-libname = "EXTENSION-NAME"
+libname = "JoyCon-Godot"
 projectdir = "demo"
 
 localEnv = Environment(tools=["default"], PLATFORM="")
@@ -36,6 +36,12 @@ Run the following command to download godot-cpp:
     sys.exit(1)
 
 env = SConscript("godot-cpp/SConstruct", {"env": env, "customs": customs})
+
+env.Append(LIBPATH=["lib/"])
+env.Append(LIBS=["libhidapi.0.14.0", "libjoycon"])
+# env.Append(CPPPATH=["src/joycons/include/"])
+env.Append(CPPPATH=["/Users/malcolmanderson/Documents/Repositories/JoyConsCPP/include"])
+env.Append(CPPPATH=["/opt/homebrew/Cellar/hidapi/0.14.0/include"])
 
 env.Append(CPPPATH=["src/"])
 sources = Glob("src/*.cpp")
