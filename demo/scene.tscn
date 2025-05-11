@@ -1,9 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://bopn3amy4j7gh"]
+[gd_scene load_steps=7 format=3 uid="uid://bopn3amy4j7gh"]
 
 [ext_resource type="Script" uid="uid://chyupinhp3xig" path="res://switch_controller.gd" id="1_ulcgi"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_ulcgi"]
-font_size = 50
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ulcgi"]
 albedo_color = Color(0.666667, 0.196078, 0.666667, 1)
@@ -25,20 +22,6 @@ ambient_light_source = 3
 
 [node name="SwitchController" type="SwitchController" parent="."]
 script = ExtResource("1_ulcgi")
-
-[node name="BodyColor" type="ColorRect" parent="."]
-unique_name_in_owner = true
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="GyroLabel" type="Label" parent="."]
-unique_name_in_owner = true
-offset_left = 59.0
-offset_top = 88.0
-offset_right = 1090.0
-offset_bottom = 157.0
-text = "Gyro amount"
-label_settings = SubResource("LabelSettings_ulcgi")
 
 [node name="Model" type="MeshInstance3D" parent="."]
 unique_name_in_owner = true

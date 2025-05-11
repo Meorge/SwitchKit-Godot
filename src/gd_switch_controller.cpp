@@ -103,6 +103,7 @@ void SwitchController::connect_controller() {
 	controller->set_input_report_mode(SwitchKit::InputReportMode::STANDARD);
     controller->request_device_info();
     controller->request_stick_calibration();
+    controller->request_imu_calibration();
     controller->request_color_data();
 }
 
