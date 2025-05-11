@@ -1,8 +1,27 @@
-[gd_scene load_steps=2 format=3 uid="uid://bopn3amy4j7gh"]
+[gd_scene load_steps=8 format=3 uid="uid://bopn3amy4j7gh"]
 
 [ext_resource type="Script" uid="uid://chyupinhp3xig" path="res://switch_controller.gd" id="1_ulcgi"]
 
-[node name="Node2D" type="Node2D"]
+[sub_resource type="LabelSettings" id="LabelSettings_ulcgi"]
+font_size = 50
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ulcgi"]
+albedo_color = Color(0.666667, 0.196078, 0.666667, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ulcgi"]
+size = Vector3(0.3, 0.3, 1)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ulcgi"]
+
+[sub_resource type="Sky" id="Sky_nxogm"]
+sky_material = SubResource("ProceduralSkyMaterial_ulcgi")
+
+[sub_resource type="Environment" id="Environment_ulcgi"]
+background_mode = 2
+sky = SubResource("Sky_nxogm")
+ambient_light_source = 3
+
+[node name="Node2D" type="Node3D"]
 
 [node name="SwitchController" type="SwitchController" parent="."]
 script = ExtResource("1_ulcgi")
@@ -11,3 +30,26 @@ script = ExtResource("1_ulcgi")
 unique_name_in_owner = true
 offset_right = 40.0
 offset_bottom = 40.0
+
+[node name="GyroLabel" type="Label" parent="."]
+unique_name_in_owner = true
+offset_left = 59.0
+offset_top = 88.0
+offset_right = 1090.0
+offset_bottom = 157.0
+text = "Gyro amount"
+label_settings = SubResource("LabelSettings_ulcgi")
+
+[node name="Model" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+material_override = SubResource("StandardMaterial3D_ulcgi")
+mesh = SubResource("BoxMesh_ulcgi")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.10449)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.815663, 0.383404, -0.433238, 0, 0.748863, 0.662725, 0.578527, -0.54056, 0.61082, 0, 0, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ulcgi")

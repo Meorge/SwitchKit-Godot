@@ -9,6 +9,8 @@ void SwitchController::_bind_methods() {
     ClassDB::bind_method(D_METHOD("poll"), &SwitchController::poll);
     ClassDB::bind_method(D_METHOD("get_button", "p_button"), &SwitchController::get_button);
     ClassDB::bind_method(D_METHOD("get_stick", "p_stick"), &SwitchController::get_stick);
+    ClassDB::bind_method(D_METHOD("get_accel"), &SwitchController::get_accel);
+    ClassDB::bind_method(D_METHOD("get_gyro"), &SwitchController::get_gyro);
 
     ClassDB::bind_method(D_METHOD("get_battery_level"), &SwitchController::get_battery_level);
     ClassDB::bind_method(D_METHOD("get_battery_charging"), &SwitchController::get_battery_charging);
@@ -108,6 +110,14 @@ void SwitchController::poll() {
     ERR_FAIL_COND(handle == NULL);
     ERR_FAIL_COND(controller == nullptr);
     controller->poll();
+
+    SwitchKit::Vector3 raw_gyro = controller->get_gyro();
+
+    // Original data is in deg/s.
+    // We convert to rad/s, then multiply by delta to get the change over this frame,
+    // and finally add to the accumulated amount.
+    Vector3 godot_gyro = Vector3(raw_gyro.y, -raw_gyro.z, -raw_gyro.x) * (M_PI / 180.0) * 0.015; // 15ms
+    accumulated_gyro += godot_gyro;
 }
 
 bool SwitchController::get_button(SwitchControllerButton p_button) const {
@@ -121,6 +131,19 @@ Vector2 SwitchController::get_stick(SwitchControllerStick stick) const {
     ERR_FAIL_COND_V(controller == NULL, Vector2());
     SwitchKit::Vector2 raw_stick = controller->get_stick((SwitchKit::SwitchController::Stick)stick);
     return Vector2(raw_stick.x, raw_stick.y);
+}
+
+Vector3 SwitchController::get_accel() const {
+    ERR_FAIL_COND_V(handle == NULL, Vector3());
+    ERR_FAIL_COND_V(controller == NULL, Vector3());
+    SwitchKit::Vector3 raw_acc = controller->get_accel();
+    return Vector3(raw_acc.x, raw_acc.y, raw_acc.z);
+}
+
+Vector3 SwitchController::get_gyro() const {
+    ERR_FAIL_COND_V(handle == NULL, Vector3());
+    ERR_FAIL_COND_V(controller == NULL, Vector3());
+    return accumulated_gyro;
 }
 
 SwitchController::BatteryLevel SwitchController::get_battery_level() const {

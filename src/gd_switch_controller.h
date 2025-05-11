@@ -13,6 +13,8 @@ class SwitchController : public Node {
 private:
     SwitchKit::SwitchController *controller;
     hid_device *handle;
+
+    Vector3 accumulated_gyro = Vector3(0,0,0);
 protected:
     static void _bind_methods();
 public:
@@ -55,6 +57,9 @@ public:
         STICK_RIGHT
     };
     Vector2 get_stick(SwitchControllerStick stick) const;
+
+    Vector3 get_accel() const;
+    Vector3 get_gyro() const;
 
     enum BatteryLevel {
         BATTERY_FULL = 8,
