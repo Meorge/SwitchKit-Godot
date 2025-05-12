@@ -77,8 +77,6 @@ public:
     };
     ControllerType get_controller_type() const;
 
-    // TODO: get IMU data
-
     void set_imu_enabled(bool enabled);
     void set_mcu_enabled(bool enabled);
 
@@ -93,7 +91,7 @@ public:
     };
     void set_player_lights(PlayerLightStatus p1, PlayerLightStatus p2, PlayerLightStatus p3, PlayerLightStatus p4);
 
-    // TODO: rumble
+    void rumble(const Dictionary &p_rumble) const;
 
     enum ColorRole {
         COLOR_BODY,

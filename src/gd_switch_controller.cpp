@@ -26,6 +26,8 @@ void SwitchController::_bind_methods() {
 
     ClassDB::bind_method(D_METHOD("set_player_lights", "p_p1", "p_p2", "p_p3", "p_p4"), &SwitchController::set_player_lights);
 
+    ClassDB::bind_method(D_METHOD("rumble", "p_rumble"), &SwitchController::rumble);
+
     ClassDB::bind_method(D_METHOD("get_color", "p_role"), &SwitchController::get_color);
 
     ClassDB::bind_method(D_METHOD("enable_ringcon"), &SwitchController::enable_ringcon);
@@ -204,6 +206,38 @@ void SwitchController::set_player_lights(PlayerLightStatus p1, PlayerLightStatus
         (SwitchKit::SwitchController::PlayerLight)p3,
         (SwitchKit::SwitchController::PlayerLight)p4
     );
+}
+
+void SwitchController::rumble(const Dictionary &p_rumble) const {
+    ERR_FAIL_COND(handle == NULL);
+    ERR_FAIL_COND(controller == nullptr);
+
+    Variant left_high_freq = p_rumble.get("left_high_freq", 320.0);
+    Variant left_high_amp = p_rumble.get("left_high_amp", 0.0);
+
+    Variant left_low_freq = p_rumble.get("left_low_freq", 160.0);
+    Variant left_low_amp = p_rumble.get("left_low_amp", 0.0);
+
+    Variant right_high_freq = p_rumble.get("right_high_freq", 320.0);
+    Variant right_high_amp = p_rumble.get("right_high_amp", 0.0);
+
+    Variant right_low_freq = p_rumble.get("right_low_freq", 160.0);
+    Variant right_low_amp = p_rumble.get("right_low_amp", 0.0);
+
+    SwitchKit::HDRumbleConfig config;
+    config.left.high.frequency = left_high_freq;
+    config.left.high.amplitude = left_high_amp;
+
+    config.left.low.frequency = left_low_freq;
+    config.left.low.amplitude = left_low_amp;
+
+    config.right.high.frequency = right_high_freq;
+    config.right.high.amplitude = right_high_amp;
+
+    config.right.low.frequency = right_low_freq;
+    config.right.low.amplitude = right_low_amp;
+
+    controller->rumble(config);
 }
 
 Color SwitchController::get_color(ColorRole role) const {

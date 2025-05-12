@@ -19,4 +19,12 @@ func _process(delta):
     poll()
     var gyro = get_gyro()
     model.rotation = gyro
+
+    if get_button(SwitchController.BTN_A):
+        rumble({
+            "right_high_amp": 0.3,
+            "right_high_freq": 110.0
+        })
+    else:
+        rumble({})
     
