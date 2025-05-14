@@ -124,12 +124,7 @@ void SwitchController::poll() {
     controller->poll();
 
     SwitchKit::Vector3 raw_gyro = controller->get_gyro();
-
-    // Original data is in deg/s.
-    // We convert to rad/s, then multiply by delta to get the change over this frame,
-    // and finally add to the accumulated amount.
-    Vector3 godot_gyro = Vector3(raw_gyro.y, -raw_gyro.z, -raw_gyro.x) * (M_PI / 180.0);
-    accumulated_gyro += godot_gyro;
+    accumulated_gyro = Vector3(raw_gyro.y, -raw_gyro.z, -raw_gyro.x);
 }
 
 bool SwitchController::get_button(SwitchControllerButton p_button) const {
