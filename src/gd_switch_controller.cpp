@@ -92,7 +92,9 @@ void SwitchController::_bind_methods() {
 
 SwitchController::SwitchController() {}
 SwitchController::~SwitchController() {
-    // TODO: close handle?
+    if (handle != nullptr) {
+        hid_close(handle);
+    }
     delete controller;
 }
 
