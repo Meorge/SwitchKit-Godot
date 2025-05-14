@@ -38,7 +38,7 @@ Run the following command to download godot-cpp:
 env = SConscript("godot-cpp/SConstruct", {"env": env, "customs": customs})
 
 env.Append(LIBPATH=["lib/"])
-env.Append(LIBS=["libhidapi.0.14.0", "libjoycon"])
+env.Append(LIBS=["libhidapi.0.14.0", "libjoycon.o"])
 # env.Append(CPPPATH=["src/joycons/include/"])
 env.Append(CPPPATH=["/Users/malcolmanderson/Documents/Repositories/JoyConsCPP/include"])
 env.Append(CPPPATH=["/opt/homebrew/Cellar/hidapi/0.14.0/include"])

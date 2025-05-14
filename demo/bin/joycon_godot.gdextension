@@ -6,8 +6,8 @@ reloadable = true
 
 [dependencies]
 macos.debug = {
-    "res://bin/libhidapi.0.14.0.dylib" : "",
-    "res://bin/libjoycon.dylib": ""
+;    "res://bin/libjoycon.dylib": "Contents/Frameworks",
+    "res://bin/libhidapi.0.14.0.dylib" : "Contents/Frameworks"
 }
 
 [libraries]
