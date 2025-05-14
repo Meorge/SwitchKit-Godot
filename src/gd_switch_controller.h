@@ -48,7 +48,9 @@ public:
         BTN_RIGHT,
         BTN_LEFT,
         BTN_L,
-        BTN_ZL
+        BTN_ZL,
+
+        BTN_RINGCON_FLEX
     };
     bool get_button(SwitchControllerButton p_button) const;
     bool get_button_pressed_this_frame(SwitchControllerButton p_button) const;
