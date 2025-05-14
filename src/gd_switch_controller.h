@@ -77,6 +77,13 @@ public:
     };
     ControllerType get_controller_type() const;
 
+    enum ExternalDevice {
+        EXT_NONE = 0x0,
+        EXT_RINGCON = 0x2000,
+        EXT_STARLINK = 0x2800
+    };
+    SwitchController::ExternalDevice get_external_device() const;
+
     void set_imu_enabled(bool enabled);
     void set_mcu_enabled(bool enabled);
 
@@ -103,6 +110,9 @@ public:
 
     // Ring-Con methods
     void enable_ringcon();
+    void disable_ringcon();
+    bool get_ringcon_connected();
+    bool get_ringcon_enabled();
     float get_ringcon_flex();
 };
 
@@ -112,6 +122,7 @@ VARIANT_ENUM_CAST(SwitchController::SwitchControllerButton);
 VARIANT_ENUM_CAST(SwitchController::SwitchControllerStick);
 VARIANT_ENUM_CAST(SwitchController::BatteryLevel);
 VARIANT_ENUM_CAST(SwitchController::ControllerType);
+VARIANT_ENUM_CAST(SwitchController::ExternalDevice);
 VARIANT_ENUM_CAST(SwitchController::PlayerLightStatus);
 VARIANT_ENUM_CAST(SwitchController::ColorRole);
 

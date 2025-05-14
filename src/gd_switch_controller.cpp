@@ -15,6 +15,7 @@ void SwitchController::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_battery_level"), &SwitchController::get_battery_level);
     ClassDB::bind_method(D_METHOD("get_battery_charging"), &SwitchController::get_battery_charging);
     ClassDB::bind_method(D_METHOD("get_controller_type"), &SwitchController::get_controller_type);
+    ClassDB::bind_method(D_METHOD("get_external_device"), &SwitchController::get_external_device);
 
     ClassDB::bind_method(D_METHOD("set_imu_enabled", "p_enabled"), &SwitchController::set_imu_enabled);
     ClassDB::bind_method(D_METHOD("set_mcu_enabled", "p_enabled"), &SwitchController::set_mcu_enabled);
@@ -31,6 +32,9 @@ void SwitchController::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_color", "p_role"), &SwitchController::get_color);
 
     ClassDB::bind_method(D_METHOD("enable_ringcon"), &SwitchController::enable_ringcon);
+    ClassDB::bind_method(D_METHOD("disable_ringcon"), &SwitchController::disable_ringcon);
+    ClassDB::bind_method(D_METHOD("get_ringcon_connected"), &SwitchController::get_ringcon_connected);
+    ClassDB::bind_method(D_METHOD("get_ringcon_enabled"), &SwitchController::get_ringcon_enabled);
     ClassDB::bind_method(D_METHOD("get_ringcon_flex"), &SwitchController::get_ringcon_flex);
 
     BIND_ENUM_CONSTANT(BTN_A);
@@ -71,6 +75,10 @@ void SwitchController::_bind_methods() {
     BIND_ENUM_CONSTANT(CONTROLLER_R);
     BIND_ENUM_CONSTANT(CONTROLLER_PRO);
 
+    BIND_ENUM_CONSTANT(EXT_NONE);
+    BIND_ENUM_CONSTANT(EXT_RINGCON);
+    BIND_ENUM_CONSTANT(EXT_STARLINK);
+
     BIND_ENUM_CONSTANT(LIGHT_OFF);
     BIND_ENUM_CONSTANT(LIGHT_ON);
     BIND_ENUM_CONSTANT(LIGHT_FLASH);
@@ -102,7 +110,7 @@ void SwitchController::connect_controller() {
     }
 
     controller = new SwitchKit::SwitchController(handle);
-	controller->set_input_report_mode(SwitchKit::InputReportMode::STANDARD);
+	controller->set_input_report_mode(SwitchKit::InputReportMode::MODE_STANDARD);
     controller->request_device_info();
     controller->request_stick_calibration();
     controller->request_imu_calibration();
@@ -165,6 +173,12 @@ SwitchController::ControllerType SwitchController::get_controller_type() const {
     ERR_FAIL_COND_V(handle == NULL, CONTROLLER_L);
     ERR_FAIL_COND_V(controller == nullptr, CONTROLLER_L);
     return (SwitchController::ControllerType)controller->get_controller_type();
+}
+
+SwitchController::ExternalDevice SwitchController::get_external_device() const {
+    ERR_FAIL_COND_V(handle == NULL, EXT_NONE);
+    ERR_FAIL_COND_V(controller == nullptr, EXT_NONE);
+    return (SwitchController::ExternalDevice)controller->get_external_device_id();
 }
 
 void SwitchController::set_imu_enabled(bool enabled) {
@@ -255,6 +269,24 @@ void SwitchController::enable_ringcon() {
     ERR_FAIL_COND(handle == NULL);
     ERR_FAIL_COND(controller == nullptr);
     controller->enable_ringcon();
+}
+
+void SwitchController::disable_ringcon() {
+    ERR_FAIL_COND(handle == NULL);
+    ERR_FAIL_COND(controller == nullptr);
+    controller->disable_ringcon();
+}
+
+bool SwitchController::get_ringcon_connected() {
+    ERR_FAIL_COND_V(handle == NULL, false);
+    ERR_FAIL_COND_V(controller == nullptr, false);
+    return controller->get_ringcon_connected();
+}
+
+bool SwitchController::get_ringcon_enabled() {
+    ERR_FAIL_COND_V(handle == NULL, false);
+    ERR_FAIL_COND_V(controller == nullptr, false);
+    return controller->get_ringcon_enabled();
 }
 
 float SwitchController::get_ringcon_flex() {
