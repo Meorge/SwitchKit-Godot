@@ -51,6 +51,7 @@ public:
         BTN_ZL
     };
     bool get_button(SwitchControllerButton p_button) const;
+    bool get_button_pressed_this_frame(SwitchControllerButton p_button) const;
 
     enum SwitchControllerStick {
         STICK_LEFT,

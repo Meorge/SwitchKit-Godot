@@ -8,6 +8,7 @@ void SwitchController::_bind_methods() {
     ClassDB::bind_method(D_METHOD("connect_controller"), &SwitchController::connect_controller);
     ClassDB::bind_method(D_METHOD("poll"), &SwitchController::poll);
     ClassDB::bind_method(D_METHOD("get_button", "p_button"), &SwitchController::get_button);
+    ClassDB::bind_method(D_METHOD("get_button_pressed_this_frame", "p_button"), &SwitchController::get_button_pressed_this_frame);
     ClassDB::bind_method(D_METHOD("get_stick", "p_stick"), &SwitchController::get_stick);
     ClassDB::bind_method(D_METHOD("get_accel"), &SwitchController::get_accel);
     ClassDB::bind_method(D_METHOD("get_gyro"), &SwitchController::get_gyro);
@@ -134,7 +135,13 @@ void SwitchController::poll() {
 bool SwitchController::get_button(SwitchControllerButton p_button) const {
     ERR_FAIL_COND_V(handle == NULL, false);
     ERR_FAIL_COND_V(controller == nullptr, false);
-    return controller->get_button((SwitchKit::JoyConReport::Button)p_button);
+    return controller->get_button((SwitchKit::SwitchControllerReport::Button)p_button);
+}
+
+bool SwitchController::get_button_pressed_this_frame(SwitchControllerButton p_button) const {
+    ERR_FAIL_COND_V(handle == NULL, false);
+    ERR_FAIL_COND_V(controller == nullptr, false);
+    return controller->get_button_pressed_this_frame((SwitchKit::SwitchControllerReport::Button)p_button);
 }
 
 Vector2 SwitchController::get_stick(SwitchControllerStick stick) const {
